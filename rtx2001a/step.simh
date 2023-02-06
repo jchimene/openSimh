@@ -1,0 +1,21 @@
+# do rtx2001a/step.simh
+set CPU NODEBUG
+# set log -p stdout
+send delay=50 '\r\nbye\r\n'
+step 26829
+ex ps
+ex rs
+set CPU DEBUG=CPU;ASBW;PSBW;RSBW
+call loop 0
+goto done
+:loop
+set env k=%1
+if (k == 0) return
+:loop_1
+step
+ex ps
+ex rs
+set env -A k=k-1
+if (k == 0) return
+goto loop_1
+:done
